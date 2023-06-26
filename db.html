@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Page</title>
+</head>
+<body>
+    <input type="text" id="user-input">
+    <button id="send-button">Send Request</button>
+    <div id="result"></div>
+    <div id="contentDiv"></div>
+    <script>
+        document.getElementById('send-button').addEventListener('click', function() {
+            var userInput = document.getElementById('user-input').value;
+
+            fetch('http://localhost:5000/ai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "content": userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                //document.getElementById('result').textContent = data.choices.content;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+
+
+/*       
+const responseJson = {
+  "choices": [
+    {
+      "finish_reason": "stop",
+      "index": 0,
+      "message": {
+        "content": "Hello! How may I assist you today?",
+        "role": "assistant"
+      }
+    }
+  ],
+  "created": 1687666027,
+  "id": "chatcmpl-7VBJj1ZHxT2rZoN22BNO1xcon670i",
+  "model": "gpt-3.5-turbo-0301",
+  "object": "chat.completion",
+  "usage": {
+    "completion_tokens": 9,
+    "prompt_tokens": 9,
+    "total_tokens": 18
+  }
+};
+
+// Lấy phần content và role từ đoạn JSON
+const message = responseJson.choices[0].message;
+const content = message.content;
+const role = message.role;
+
+console.log(content); // In ra "Hello! How may I assist you today?"
+console.log(role); // In ra "assistant"
+
+const content = "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit. Sed sagittis scelerisque ligula at tempor. Curabitur vel mi a arcu cursus posuere. In hac habitasse platea dictumst. Integer eget quam ac ipsum consequat consectetur. Suspendisse interdum vestibulum neque. Aenean consequat diam non turpis malesuada bibendum. Quisque sed ante sed nulla interdum semper. Mauris luctus finibus massa id ultricies. Etiam lacinia urna eget risus cursus, ac mattis nisl faucibus. Proin tristique, justo vitae consequat fermentum, arcu velit mattis arcu, vel tincidunt tellus lorem ac purus. Aliquam lacinia sapien sed risus porttitor, vitae eleifend nulla consectetur. Nulla bibendum magna ligula, sed convallis eros consequat eu. Nulla facilisi. Pellentesque venenatis, enim in vestibulum semper, felis mi tristique lorem, id tristique diam nulla sed neque. Integer non sapien eget lacus posuere pharetra.Nunc vitae pharetra neque, vitae cursus lorem. Fusce id augue in velit consequat congue eu eget diam. Nullam placerat condimentum mauris, eu semper nisi luctus a. Aliquam laoreet placerat ligula eget volutpat. Phasellus faucibus massa sit amet dolor vestibulum, a consequat lacus tempor. Mauris in tristique risus. Curabitur lobortis turpis ac justo aliquet lobortis. Nulla euismod lectus non ultricies dignissim. Fusce dapibus, dui non egestas aliquam, lectus quam elementum mi, vel fermentum massa purus ac mauris. Phasellus interdum felis eget mi consectetur, ac aliquam est laoreet. Nullam auctor malesuada gravida.Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam vitae risus mi. Sed eleifend mauris ut massa iaculis, in posuere tellus ultricies. Sed finibus tristique purus ut dictum. Vivamus tincidunt auctor lectus, vel iaculis quam tincidunt at. Morbi elementum tristique eros, vel ultrices dolor consequat in. Mauris euismod nunc metus, sed efficitur massa aliquam non. Mauris sed quam et urna volutpat egestas id vitae quam. In pretium vulputate turpis, nec facilisis enim tristique ut. Mauris accumsan fermentum tellus, a dapibus elit. Suspendisse potenti. Curabitur auctor ipsum vitae risus mattis, et fermentum lectus ullamcorper. Vestibulum id sem a mauris rhoncus semper a eget odio. Suspendisse a purus lorem.Phasellus at mi at ipsum rhoncus iaculis. Fusce commodo, orci et eleifend bibendum, diam tortor feugiat turpis, id dapibus urna diam at ex. In venenatis leo in mauris lobortis sagittis. Vestibulum auctor elit ut risus tincidunt, vel vulputate nulla tristique. Cras aliquet est et elit condimentum, id gravida sem viverra. Sed aliquet urna ut lectus feugiat cursus. Integer lacinia elementum efficitur. Mauris dapibus nulla mauris, in dignissim risus dignissim eu. Vestibulum quis est nec justo consequat viverra nec id ligula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum eget lacinia eros. Morbi malesuada turpis ac nisl pulvinar cursus. Donec tincidunt velit id tortor interdum facilisis. Integer at lacus at lectus bibendum faucibus. Suspendisse at lectus felis."; // Giả sử đây là nội dung cần hiển thị
+const formattedMessage = content.replace(/\n/g, '<br>');
+const contentDiv = document.getElementById("contentDiv"); // Lấy thẻ div cần hiển thị nội dung
+
+// Chia nhỏ nội dung thành các ký tự riêng lẻ
+const characters = content.split("");
+
+// Hiển thị từng ký tự trong thẻ div theo thứ tự
+characters.forEach((character, index) => {
+  setTimeout(() => {
+    contentDiv.innerHTML += character; // Thêm ký tự vào thẻ div
+  }, index * 10); // Delay giữa mỗi ký tự là 50ms (có thể điều chỉnh theo ý muốn)
+});*/
+    </script>
+</body>
+</html>

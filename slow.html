@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .chats-container {
+      overflow: auto;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-history"></div>
+  <div class="bot-chatss"></div>
+
+  <script>
+    const botMessage = "As an AI language model, I don't have personal experience to make a birthday cake. Still, I can provide you with a general recipe that you may follow to make a basic birthday cake:\n\nIngredients:\n- 2 cups all-purpose flour";
+let stopPrinting = false; // Biến để kiểm tra việc dừng in
+const localStorageKey = 'printedMessage';
+
+function showSlowly(message) {
+  return new Promise(resolve => {
+    const formattedMessage = message.replace(/\n/g, '\n\u200B');
+    const chars = formattedMessage.split("");
+    let currentIndex = 0;
+
+    function showNextChar() {
+      if (stopPrinting) { // Kiểm tra nút dừng đã được nhấn chưa
+        resolve();
+        return;
+      }
+
+      const chatsContainer = document.querySelector('.chats-container');
+      chatsContainer.innerHTML += chars[currentIndex];
+
+      if (chars[currentIndex] === '\n') {
+        chatsContainer.appendChild(document.createElement('br'));
+      }
+
+      if (++currentIndex < chars.length) {
+        setTimeout(showNextChar, 10); // Thời gian chờ giữa mỗi ký tự (ở đây là 100ms)
+      } else {
+        resolve();
+      }
+    }
+
+    showNextChar();
+  });
+}
+
+function displayBotMessage(message) {
+  const chatHistory = document.getElementById('chat-history');
+  let botChats = document.createElement('div');
+  botChats.className = 'bot-chats';
+
+  botChats.innerHTML = `
+    <div class="mg-lft-20">
+      <div><i class="fa-solid fa-robot"></i> :</div>
+      <pre class="chats-container"></pre>
+      <button id="stopButton">Stop</button>
+    </div>
+  `;
+
+  chatHistory.appendChild(botChats);
+
+  const stopButton = document.getElementById('stopButton');
+  stopButton.addEventListener('click', () => {
+    stopPrinting = true; // Thiết lập biến dừng khi nhấn nút
+  });
+
+  showSlowly(message)
+    .then(() => {
+      scrollToBottom();
+      localStorage.setItem(localStorageKey, message); // Lưu trữ tin nhắn vào local storage
+    });
+}
+
+function applyLocalStorage() {
+  const storedMessage = localStorage.getItem(localStorageKey);
+  if (storedMessage) {
+    const botChatsContainer = document.querySelector('.bot-chatss');
+    botChatsContainer.innerHTML = storedMessage;
+    botChatsContainer.style.backgroundColor = 'red';
+  }
+}
+
+displayBotMessage(botMessage);
+applyLocalStorage();
+
+
+  </script>
+</body>
+</html>

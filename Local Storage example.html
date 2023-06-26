@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VIE-GPT</title>
+</head>
+<body>
+  <input type="text" id="your-input-element" placeholder="Nhập chữ vào đây">
+  <button id="send-button">Gửi</button>
+  <div id="div-container"></div>
+
+  <script>
+    var inputElement = document.getElementById('your-input-element');
+    var sendButton = document.getElementById('send-button');
+    var divContainer = document.getElementById('div-container');
+
+    // Danh sách các div đã tạo
+    var divList = [];
+
+    // Lắng nghe sự kiện ấn phím "Enter"
+    inputElement.addEventListener('keypress', function(event) {
+      // Kiểm tra xem phím được ấn có phải là phím "Enter" (keyCode = 13) hay không
+      if (event.keyCode === 13) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của phím "Enter" (ví dụ: submit form)
+        sendButton.click(); // Kích hoạt sự kiện click của nút "Gửi"
+      }
+    });
+
+    // Khôi phục danh sách các div đã lưu từ Local Storage
+    window.addEventListener('load', function() {
+      var savedDivs = localStorage.getItem('savedDivs');
+      if (savedDivs) {
+        divList = JSON.parse(savedDivs);
+        console.log(divList)
+        divList.forEach(function(divContent) {
+          addExistingDiv(divContent);
+        });
+      }
+    });
+
+    // Tạo một div mới và lưu vào danh sách div
+    function addNewDiv(content) {
+      var newDiv = document.createElement('div');
+      newDiv.innerText = content;
+      divContainer.appendChild(newDiv);
+      divList.push(content);
+      saveDivsToLocalStorage();
+    }
+
+    // Hiển thị một div đã có
+    function addExistingDiv(content) {
+      var newDiv = document.createElement('div');
+      newDiv.innerText = content;
+      divContainer.appendChild(newDiv);
+    }
+
+    // Lưu danh sách các div vào Local Storage
+    function saveDivsToLocalStorage() {
+      localStorage.setItem('savedDivs', JSON.stringify(divList));
+    }
+
+    // Xử lý sự kiện khi người dùng nhấn nút Gửi
+    sendButton.addEventListener('click', function() {
+      var inputValue = inputElement.value;
+      if (inputValue) {
+        addNewDiv(inputValue);
+        inputElement.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

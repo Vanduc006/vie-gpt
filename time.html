@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-time Time</title>
+</head>
+<body>
+  <h1 id="real-time"></h1>
+
+  <script>
+    function updateRealTime() {
+      var currentTime = new Date();
+      var currentHour = currentTime.getHours();
+      var currentMinute = currentTime.getMinutes();
+      var currentSecond = currentTime.getSeconds();
+
+      // Chuyển đổi sang định dạng chuỗi thời gian hh:mm:ss
+      var currentTimeString = currentHour + ":" + currentMinute + ":" + currentSecond;
+
+      // Cập nhật thời gian thực trên trang
+      document.getElementById("real-time").textContent = "Thời gian ngay khi truy cập: " + currentTimeString;
+    }
+
+    // Gọi hàm cập nhật thời gian ngay khi truy cập
+    updateRealTime();
+  </script>
+</body>
+</html>

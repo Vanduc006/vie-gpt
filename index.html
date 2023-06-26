@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIE-GPT</title>
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="modal.css">
+    <script src="https://kit.fontawesome.com/493cf92c43.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+    <div class="header">
+        <a>VIE-GPT</a>
+      </div>
+    <div class="chat-container">
+        <div class="chat-history" id="chat-history"></div>
+        <div class="bottom-container">
+            <div class="option-contanier">
+                <button class="soft">Options</button>
+                <button class="stop-generate" onclick="">Stop Generate</button>
+            </div>
+            
+            
+            <input type="text" placeholder="Type your questions/chats here..." id="user-input">
+            <input type="submit" id="send-button" value="Send">
+            <!--<input type="submit" id="send-button2" value="AI" style="margin-top: 10px;">-->
+        </div>
+    </div>
+    <div class="modal js-modal">
+        <div class="modal-contanier">
+          <div class="modal-close js-modal-close">
+            <i class="fa-solid fa-circle-xmark close"></i>
+          </div>
+          <div class="modal-head">
+            
+            <h1>Options</h1>
+            
+          </div>
+          <div class="modal-content">
+            <button class="see-localstorage">Local Storage (Kb)</button>
+            <button class="clear-localstorage">Clear Local Storage</button>
+            
+          </div>
+      <script src="modal.js"></script>
+      </div> 
+    <script>
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.querySelector('#send-button');
+        const sendButton2 = document.querySelector('#send-button2');
+        const stopGenerate =  document.querySelector('stop-generate');
+
+
+        // Kiểm tra nếu có dữ liệu trong Local Storage
+        if (localStorage.getItem('chats')) {
+        chatHistory.innerHTML = localStorage.getItem('chats');
+        }
+        function scrollToBottom() {
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+            
+        sendButton.addEventListener('click', e => {
+            const userInputData = userInput.value;
+            const checkEmpty = userInputData.trim();
+            
+            if (checkEmpty.length !== 0) {
+                let userChats = document.createElement('div');
+                userChats.innerHTML = `
+                <div class="user-chats">
+                    <div class="mg-lft-20">
+                        <div class="user-icon"><i class="fa-solid fa-user"></i> : </div>
+                        <div class="chats-container">
+                            <span class="chats">${userInputData}</span>
+                        </div>
+                    </div>
+
+                </div>
+                `;
+            chatHistory.appendChild(userChats);
+            scrollToBottom();
+            // Lưu tin nhắn vào Local Storage
+            localStorage.setItem('chats', chatHistory.innerHTML);
+            userInput.value = '';
+            }            
+            else {
+                alert('Rỗng');
+            }
+
+            if (userInputData == 'hello') {
+                const botMessage = "Để tạo một web browser đơn giản bằng Python, ta có thể sử dụng thư viện QtWebEngineWidgets và PyQt5. Sau đây là một chương trình đơn giản cho trình duyệt web:\n\n```\nimport sys\nfrom PyQt5.QtCore import *\nfrom PyQt5.QtGui import *\nfrom PyQt5.QtWidgets import *\nfrom PyQt5.QtWebEngineWidgets import *\n\napp = QApplication(sys.argv)\n\nweb = QWebEngineView()\nweb.load(QUrl(\"https://google.com\"))\nweb.show()\n\nsys.exit(app.exec_())\n```\n\nTrong đoạn code này, chúng ta sử dụng QApplication để tạo ra một ứng dụng đơn giản và QWebEngineView để tạo trình duyệt web. Chúng ta cũng sử dụng phương thức load() để load trang web và phương thức show() để hiển thị trình duyệt web. Cuối cùng, chúng ta sử dụng phương thức exec_() để bắt đầu chạy ứng dụng.\n\nChương trình này sẽ mở một trình duyệt web và load trang web Google. Bạn có thể thay đổi địa chỉ URL để mở trang web khác.";
+                
+
+const chatHistory = document.getElementById('chat-history');
+let stopPrinting = false;
+
+function printMessage(message, container) {
+  const chars = message.split("");
+  let currentIndex = 0;
+
+  function printNextChar() {
+    if (stopPrinting) { // Kiểm tra biến cờ dừng
+      return;
+    }
+
+    const currentChar = chars[currentIndex];
+    container.innerHTML += currentChar;
+
+    if (currentChar === '\n') {
+      container.appendChild(document.createElement('br'));
+    }
+
+    currentIndex++;
+
+    if (currentIndex < chars.length) {
+      setTimeout(printNextChar, 10); // Thời gian chờ giữa mỗi ký tự (ở đây là 10ms)
+      scrollToBottom();
+    }
+  }
+
+  printNextChar();
+}
+
+const botChats = document.createElement('div');
+botChats.className = 'bot-chats';
+botChats.innerHTML = `
+  <div class="mg-lft-20">
+    <div><i class="fa-solid fa-robot"></i> :</div>
+    <div class="chats-container"></div>
+  </div>
+`;
+
+chatHistory.appendChild(botChats);
+
+const chatsContainer = botChats.querySelector('.chats-container');
+printMessage(botMessage, chatsContainer);
+const stopButton = document.querySelector('.stop-generate');
+stopButton.addEventListener('click', () => {
+  stopPrinting = true; // Thiết lập biến cờ dừng khi nhấn nút
+});
+
+
+
+
+            }
+
+
+        });
+            
+
+            
+
+
+        // Lắng nghe sự kiện ấn phím "Enter"
+        userInput.addEventListener('keypress', function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault(); 
+            sendButton.click(); 
+        }
+        });
+        
+    </script>
+</body>
+</html>

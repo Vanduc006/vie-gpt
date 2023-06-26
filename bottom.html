@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GPT-like Chat</title>
+
+</head>
+<body>
+
+      <style>
+        .header {
+          text-align: center;
+        }
+    
+        .chat-container {
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          margin: 0 auto;
+        }
+    
+        .chat-history {
+          flex: 1;
+          overflow-y: scroll;
+          border: 1px solid #ccc;
+          padding: 10px;
+        }
+    
+        .bottom-container {
+
+          align-items: center;
+          padding: 10px;
+          border-top: 1px solid #ccc;
+        }
+    
+        .bottom-container a {
+          margin-right: 10px;
+        }
+    
+        .bottom-container input[type="text"] {
+          flex: 1;
+          padding: 5px;
+          box-sizing: border-box;
+          margin-right: 10px;
+        }
+    
+        .bottom-container input[type="submit"] {
+          padding: 8px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+      </style>
+
+      <div class="header">
+        <a>VIE-GPT</a>
+      </div>
+      <div class="chat-container">
+        <div class="chat-history" id="chat-history"></div>
+        <div class="bottom-container">
+          <a>Options</a>
+          <input type="text" placeholder="Type your questions/chats here..." id="user-input">
+          <input type="submit" id="send-button">
+        </div>
+      </div>
+
+    
+
+  <script>
+    var chatHistoryElement = document.getElementById('chat-history');
+    var userInputElement = document.getElementById('user-input');
+    var sendButton = document.getElementById('send-button');
+
+    // Load lịch sử chat từ Local Storage (nếu có)
+    var chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+
+    // Hiển thị lịch sử chat đã lưu
+    chatHistory.forEach(function(message) {
+      var chatMessage = document.createElement('div');
+      chatMessage.textContent = message;
+      chatHistoryElement.appendChild(chatMessage);
+    });
+
+    // Lắng nghe sự kiện ấn phím "Enter"
+    userInputElement.addEventListener('keypress', function(event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        sendButton.click();
+      }
+    });
+
+    // Xử lý sự kiện khi người dùng nhấn nút "Gửi"
+    sendButton.addEventListener('click', function() {
+      var userInput = userInputElement.value;
+
+      if (userInput) {
+        var chatMessage = document.createElement('div');
+        chatMessage.textContent = userInput;
+        chatHistoryElement.appendChild(chatMessage);
+
+        chatHistory.push(userInput);
+        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+
+        userInputElement.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

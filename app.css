@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;;
+}
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: coral;
+    text-align: center; /* Thêm thuộc tính text-align: center */
+}
+.header a {
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+body {
+    background-color: #f0f0f0;
+}
+
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+
+.chat-history {
+    margin-top: 20px;
+    flex: 1;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+
+  }
+
+  .chat-history::-webkit-scrollbar-thumb {
+    background-color: #4CAF50;
+    border-radius: 4px;
+  }
+  
+  .chat-history::-webkit-scrollbar-track {
+    background-color:  #4CAF50;
+  }
+#user-input {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+
+}
+#user-input::placeholder {
+    text-align: center;
+}
+#send-button {
+    width: 100%;
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+}
+#send-button2 {
+    width: 100%;
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.bottom-contanier {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0 20px 0 20px;
+
+}
+.user-chats {
+    background-color: #fff;
+    padding: 8px 0 8px 0;
+    margin-top: 10px;
+    word-wrap: break-word;
+    border-radius: 8px;
+}
+.bot-chats {
+    background-color: #4CAF50;
+    padding: 8px 0 8px 0;
+    margin-top: 10px;
+    word-wrap: break-word;
+    border-radius: 8px;
+}
+
+.mg-lft-20 {
+    margin-left: 10px;
+    margin-right: 10px; /* hoặc giá trị margin-left mong muốn */
+}
+  
+.chats {
+    word-wrap: break-word;
+}
+
+.option-contanier {
+    margin: 10px 0 10px 0;
+}
+.stop-generate {
+    padding: 8px 16px;
+    background-color: #00b4d8;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    
+}
+.soft {
+    padding: 8px 16px;
+    background-color: #00b4d8;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+  
+
+
