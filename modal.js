@@ -8,7 +8,9 @@ ModalClose.addEventListener('click', async e => {
   Modal.classList.remove('open')
 })
 
-const getLocalChatHistory = localStorage.getItem('chats');
+const getUserChatHistory = localStorage.getItem('chats');
+const getBotChatHistory = localStorage.getItem('bots');
+const getLocalChatHistory = getUserChatHistory + getBotChatHistory
 const LocalKb = document.querySelector('.see-localstorage')
 const clearLocal = document.querySelector('.clear-localstorage')
 
@@ -26,6 +28,7 @@ LocalKb.addEventListener('click', e => {
 
 clearLocal.addEventListener('click', e => {
   localStorage.removeItem('chats');
-  alert('Đã xóa tất cả các chats trong Local Storage!');
+  localStorage.removeItem('bots')
+  alert('Clear Local Storage Sucess!');
   location.reload();
 })

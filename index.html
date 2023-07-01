@@ -54,22 +54,33 @@
 
         // Kiểm tra nếu có dữ liệu trong Local Storage
         if (localStorage.getItem('chats')) {
-        chatHistory.innerHTML = localStorage.getItem('chats');
+          //console.log(localStorage.getItem('bot-chats'))
+          chatHistory.innerHTML = localStorage.getItem('chats');
+          chatHistory.innerHTML = localStorage.getItem('bots');
         }
+
+
         function scrollToBottom() {
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
-            
+
         sendButton.addEventListener('click', e => {
+          //sendButton.disabled = true;
             const userInputData = userInput.value;
             const checkEmpty = userInputData.trim();
-            
+            var currentTime = new Date();
+            var currentHour = currentTime.getHours();
+            var currentMinute = currentTime.getMinutes();
+            var currentSecond = currentTime.getSeconds();
+
+            // Chuyển đổi sang định dạng chuỗi thời gian hh:mm:ss
+            var currentTimeString = currentHour + ":" + currentMinute + ":" + currentSecond;
             if (checkEmpty.length !== 0) {
                 let userChats = document.createElement('div');
                 userChats.innerHTML = `
                 <div class="user-chats">
                     <div class="mg-lft-20">
-                        <div class="user-icon"><i class="fa-solid fa-user"></i> : </div>
+                        <div class="user-icon"><i class="fa-solid fa-user"><i class="fa-solid fa-circle-check" style="color: #1ed8ee;margin-left:5px;"></i></i><span class="time">${currentTimeString}</span></div>
                         <div class="chats-container">
                             <span class="chats">${userInputData}</span>
                         </div>
@@ -79,6 +90,8 @@
                 `;
             chatHistory.appendChild(userChats);
             scrollToBottom();
+            
+
             // Lưu tin nhắn vào Local Storage
             localStorage.setItem('chats', chatHistory.innerHTML);
             userInput.value = '';
@@ -88,77 +101,75 @@
             }
 
             if (userInputData == 'hello') {
+              //sendButton.disabled = true;
                 const botMessage = "Để tạo một web browser đơn giản bằng Python, ta có thể sử dụng thư viện QtWebEngineWidgets và PyQt5. Sau đây là một chương trình đơn giản cho trình duyệt web:\n\n```\nimport sys\nfrom PyQt5.QtCore import *\nfrom PyQt5.QtGui import *\nfrom PyQt5.QtWidgets import *\nfrom PyQt5.QtWebEngineWidgets import *\n\napp = QApplication(sys.argv)\n\nweb = QWebEngineView()\nweb.load(QUrl(\"https://google.com\"))\nweb.show()\n\nsys.exit(app.exec_())\n```\n\nTrong đoạn code này, chúng ta sử dụng QApplication để tạo ra một ứng dụng đơn giản và QWebEngineView để tạo trình duyệt web. Chúng ta cũng sử dụng phương thức load() để load trang web và phương thức show() để hiển thị trình duyệt web. Cuối cùng, chúng ta sử dụng phương thức exec_() để bắt đầu chạy ứng dụng.\n\nChương trình này sẽ mở một trình duyệt web và load trang web Google. Bạn có thể thay đổi địa chỉ URL để mở trang web khác.";
+                const chatHistory = document.getElementById('chat-history');
+                let stopPrinting = false;
+
+                function printMessage(message, container) {
+                  const chars = message.split("");
+                  let currentIndex = 0;
+
+                  function printNextChar() {
+                    if (stopPrinting) { // Kiểm tra biến cờ dừng
+                      return;
+                    }
+
+                    const currentChar = chars[currentIndex];
+                    container.innerHTML += currentChar;
+
+                    if (currentChar === '\n') {
+                      container.appendChild(document.createElement('br'));
+                    }
+
+                    currentIndex++;
+
+                    if (currentIndex < chars.length) {
+                      setTimeout(printNextChar, 1); // Thời gian chờ giữa mỗi ký tự (ở đây là 10ms)
+                      scrollToBottom();
+                    }
+                    localStorage.setItem('bots',chatHistory.innerHTML)
+                    
+
+                  }
+
+                  printNextChar();
+                }
+
+                const botChats = document.createElement('div');
+                botChats.className = 'bot-chats';
+                botChats.innerHTML = `
+                  <div class="mg-lft-20">
+                    <div><i class="fa-solid fa-robot"></i> :</div>
+                    <div class="chats-container"></div>
+                  </div>
+                `;
+
+                chatHistory.appendChild(botChats);
                 
+                const chatsContainer = botChats.querySelector('.chats-container');
+                printMessage(botMessage, chatsContainer);
+                
+                console.log(localStorage.getItem('bots'))
 
-const chatHistory = document.getElementById('chat-history');
-let stopPrinting = false;
-
-function printMessage(message, container) {
-  const chars = message.split("");
-  let currentIndex = 0;
-
-  function printNextChar() {
-    if (stopPrinting) { // Kiểm tra biến cờ dừng
-      return;
-    }
-
-    const currentChar = chars[currentIndex];
-    container.innerHTML += currentChar;
-
-    if (currentChar === '\n') {
-      container.appendChild(document.createElement('br'));
-    }
-
-    currentIndex++;
-
-    if (currentIndex < chars.length) {
-      setTimeout(printNextChar, 10); // Thời gian chờ giữa mỗi ký tự (ở đây là 10ms)
-      scrollToBottom();
-    }
-  }
-
-  printNextChar();
-}
-
-const botChats = document.createElement('div');
-botChats.className = 'bot-chats';
-botChats.innerHTML = `
-  <div class="mg-lft-20">
-    <div><i class="fa-solid fa-robot"></i> :</div>
-    <div class="chats-container"></div>
-  </div>
-`;
-
-chatHistory.appendChild(botChats);
-
-const chatsContainer = botChats.querySelector('.chats-container');
-printMessage(botMessage, chatsContainer);
-const stopButton = document.querySelector('.stop-generate');
-stopButton.addEventListener('click', () => {
-  stopPrinting = true; // Thiết lập biến cờ dừng khi nhấn nút
-});
-
-
-
-
+                const stopButton = document.querySelector('.stop-generate');
+                stopButton.addEventListener('click', () => {
+                  stopPrinting = true; // Thiết lập biến cờ dừng khi nhấn nút
+                });
             }
-
-
+            //sendButton.disabled = false;
         });
             
-
-            
-
-
         // Lắng nghe sự kiện ấn phím "Enter"
         userInput.addEventListener('keypress', function(event) {
         if (event.keyCode === 13) {
             event.preventDefault(); 
             sendButton.click(); 
         }
+        
         });
         
     </script>
+
 </body>
 </html>
